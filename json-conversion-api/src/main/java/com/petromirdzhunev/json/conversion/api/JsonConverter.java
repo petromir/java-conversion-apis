@@ -41,7 +41,7 @@ public interface JsonConverter<DELEGATE> {
 	 * @return a list of converted objects
 	 * @throws JsonConversionException if the conversion fails
 	 */
-	<TYPE> List<TYPE> jsonToList(final String json, Class<TYPE> listElementType);
+	<TYPE> List<TYPE> jsonToList(String json, Class<TYPE> listElementType);
 
 	/**
 	 * Converts a JSON string to a {@link Map} with keys and values of the specified types.
@@ -54,7 +54,7 @@ public interface JsonConverter<DELEGATE> {
 	 * @return a map of converted objects
 	 * @throws JsonConversionException if the conversion fails
 	 */
-	<KEY, VALUE> Map<KEY, VALUE> jsonToMap(final String json, Class<KEY> keyType, Class<VALUE> valueType);
+	<KEY, VALUE> Map<KEY, VALUE> jsonToMap(String json, Class<KEY> keyType, Class<VALUE> valueType);
 
 	/**
 	 * Converts a JSON string to a {@link Set} containing elements of the specified type.
@@ -65,7 +65,7 @@ public interface JsonConverter<DELEGATE> {
 	 * @return a set of converted objects
 	 * @throws JsonConversionException if the conversion fails
 	 */
-	<TYPE> Set<TYPE> jsonToSet(final String json, Class<TYPE> setElementType);
+	<TYPE> Set<TYPE> jsonToSet(String json, Class<TYPE> setElementType);
 
 	/**
 	 * Returns the underlying JSON library delegate.
