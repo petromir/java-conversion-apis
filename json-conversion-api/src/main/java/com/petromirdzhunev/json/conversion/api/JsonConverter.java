@@ -6,10 +6,8 @@ import java.util.Set;
 
 /**
  * Interface for JSON conversion operations, providing a common abstraction over different JSON libraries.
- *
- * @param <DELEGATE> the type of the underlying JSON library delegate (e.g., Jackson's ObjectMapper or Gson)
  */
-public interface JsonConverter<DELEGATE> {
+public interface JsonConverter {
 
 	/**
 	 * Converts the given object to its JSON string representation.
@@ -70,7 +68,8 @@ public interface JsonConverter<DELEGATE> {
 	/**
 	 * Returns the underlying JSON library delegate.
 	 *
+	 * @param <DELEGATE> the type of the underlying JSON library delegate (e.g., Jackson's ObjectMapper or Gson)
 	 * @return the delegate instance
 	 */
-	DELEGATE delegate();
+	<DELEGATE> DELEGATE delegate();
 }
