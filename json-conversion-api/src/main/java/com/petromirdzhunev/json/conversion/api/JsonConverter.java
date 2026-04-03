@@ -17,7 +17,7 @@ public interface JsonConverter {
 	 * @return the JSON string representation of the object
 	 * @throws JsonConversionException if the conversion fails
 	 */
-	<TYPE> String objectToJson(TYPE object);
+	<TYPE> String objectToJson(TYPE object) throws JsonConversionException;
 
 	/**
 	 * Converts a JSON string to an object of the specified type.
@@ -28,7 +28,7 @@ public interface JsonConverter {
 	 * @return the converted object
 	 * @throws JsonConversionException if the conversion fails
 	 */
-	<TYPE> TYPE jsonToObject(String json, Class<TYPE> type);
+	<TYPE> TYPE jsonToObject(String json, Class<TYPE> type) throws JsonConversionException;
 
 	/**
 	 * Converts a JSON string to a {@link List} containing elements of the specified type.
@@ -39,7 +39,7 @@ public interface JsonConverter {
 	 * @return a list of converted objects
 	 * @throws JsonConversionException if the conversion fails
 	 */
-	<TYPE> List<TYPE> jsonToList(String json, Class<TYPE> listElementType);
+	<TYPE> List<TYPE> jsonToList(String json, Class<TYPE> listElementType) throws JsonConversionException;
 
 	/**
 	 * Converts a JSON string to a {@link Map} with keys and values of the specified types.
@@ -52,7 +52,8 @@ public interface JsonConverter {
 	 * @return a map of converted objects
 	 * @throws JsonConversionException if the conversion fails
 	 */
-	<KEY, VALUE> Map<KEY, VALUE> jsonToMap(String json, Class<KEY> keyType, Class<VALUE> valueType);
+	<KEY, VALUE> Map<KEY, VALUE> jsonToMap(String json, Class<KEY> keyType, Class<VALUE> valueType)
+			throws JsonConversionException;
 
 	/**
 	 * Converts a JSON string to a {@link Set} containing elements of the specified type.
@@ -63,7 +64,7 @@ public interface JsonConverter {
 	 * @return a set of converted objects
 	 * @throws JsonConversionException if the conversion fails
 	 */
-	<TYPE> Set<TYPE> jsonToSet(String json, Class<TYPE> setElementType);
+	<TYPE> Set<TYPE> jsonToSet(String json, Class<TYPE> setElementType) throws JsonConversionException;
 
 	/**
 	 * Returns the underlying JSON library delegate.

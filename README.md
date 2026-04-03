@@ -3,8 +3,8 @@
 This project defines a set of Java API definitions designed to provide a common abstraction for various data 
 conversions. By using these APIs, you can decouple your application's core logic from specific third-party library implementations (such as Jackson, Gson, or others), making it easier to switch between them or support multiple implementations.
 
-## Status
-Under construction 🚧
+> [!WARNING]
+> Under active development 🚧
 
 ## Conversion Types
 
@@ -28,7 +28,7 @@ The `json-convertion-api` library provides a unified interface for JSON serializ
     <dependencies>
         <dependency>
             <groupId>com.petromirdzhunev</groupId>
-            <artifactId>java-conversions-apis-bom</artifactId>
+            <artifactId>java-conversion-apis-bom</artifactId>
             <version>${java_conversions_apis_bom_version}</version>
             <type>pom</type>
             <scope>import</scope>
@@ -71,7 +71,7 @@ Change the version by adding a `-SNAPSHOT` suffix in the [pom.xml](pom.xml) file
     <dependencies>
         <dependency>
             <groupId>com.petromirdzhunev</groupId>
-            <artifactId>java-comersions-apis-bom</artifactId>
+            <artifactId>java-comersion-apis-bom</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <type>pom</type>
             <scope>import</scope>
@@ -79,4 +79,3 @@ Change the version by adding a `-SNAPSHOT` suffix in the [pom.xml](pom.xml) file
     </dependencies>
 </dependencyManagement>
 ```
-
