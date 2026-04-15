@@ -7,6 +7,7 @@
     <groupId>com.petromirdzhunev</groupId>
     <artifactId>java-conversion-apis</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <name>java-conversion-apis</name>
     <description>An API definitions for conversions of various data types with Java</description>
 
     <modules>
@@ -70,6 +71,20 @@
                             <id>enforce</id>
                             <goals>
                                 <goal>enforce</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.kordamp.maven</groupId>
+                    <artifactId>pomchecker-maven-plugin</artifactId>
+                    <version>1.15.0</version>
+                    <executions>
+                        <execution>
+                            <id>check-release</id>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>check-maven-central</goal>
                             </goals>
                         </execution>
                     </executions>
@@ -140,14 +155,37 @@
             <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.kordamp.maven</groupId>
+                <artifactId>pomchecker-maven-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 
-    <distributionManagement>
-        <repository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>nexus</id>
-            <url>https://nexus:8081/repository/maven-releases</url>
-        </repository>
-    </distributionManagement>
+    <!-- Maven Central -->
+    <url>https://github.com/petromir/java-conversion-apis</url>
+
+    <scm>
+        <url>https://github.com/petromir/java-conversion-apis</url>
+        <connection>scm:git:git://github.com/petromir/java-conversion-apis.git</connection>
+        <developerConnection>
+            scm:git:ssh://git@github.com/petromir/java-conversion-apis.git
+        </developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>petromirdzhunev</id>
+            <name>Petromir Dzhunev</name>
+        </developer>
+    </developers>
 </project>
