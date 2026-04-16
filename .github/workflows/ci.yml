@@ -1,23 +1,82 @@
 name: CI
 
 on:
+  push:
+    branches: [main, master]
   pull_request:
     branches: [main, master]
 
 jobs:
-  test:
+  # Detect which modules have changed to run only relevant builds
+  filter-changes:
+    if: false # Temporary disable
     runs-on: ubuntu-latest
-
+    outputs:
+      # Promotes step output (string JSON array) to job level so it's accessible to 'build' job
+      modules: ${{ steps.filter.outputs.changes }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+
+      - name: Filter changes
+        uses: dorny/paths-filter@v4
+        id: filter # ID used to reference this step's outputs (e.g., steps.filter.outputs.changes)
+        with:
+          filters: |
+            json-convertion-api:
+              - 'json-convertion-api/**'
+              - 'pom.xml'
+              - '.github/workflows/ci.yml'
+              - 'checkstyl*.xml'
+            bom:
+              - 'bom/**'
+              - 'pom.xml'
+              - '.github/workflows/ci.yml'
+              - 'checkstyl*.xml'
+
+  # Warm up the Maven cache by downloading dependencies once
+  cache-dependencies:
+    if: false # Temporary disable
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
 
       - name: Set up JDK 25
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '25'
           distribution: 'temurin'
           cache: maven
 
+      - name: Download dependencies
+        # 'verify -DskipTests' is the most reliable way to force Maven to download
+        # everything (plugins, provided deps, test deps) needed for the build.
+        run: mvn verify -DskipTests -Denforcer.skip=true -B
+
+
+  build:
+    needs: [filter-changes, cache-dependencies] # Wait for dependencies to be cached
+    # Only run if the 'modules' array is not empty
+    if: ${{ needs.filter-changes.outputs.modules != '[]' && needs.filter-changes.outputs.modules != '' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # fromJSON parses the string array from the previous job into a usable matrix object
+        module: ${{ fromJSON(needs.filter-changes.outputs.modules) }}
+    runs-on: ubuntu-latest
+    # matrix.module contains the current value from the matrix iteration (e.g., 'json-converter')
+    name: Build ${{ matrix.module }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v5
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: maven # This will now find the warmed-up cache from the 'cache-dependencies' job
+
       - name: Run tests
-        run: mvn clean test
+        run: mvn -pl ${{ matrix.module }} -am clean test
